@@ -72,6 +72,8 @@ function existeEmail(email) {
                 return true;
             } else {
                 console.log("El email no existe");
+                guardarUsuario();
+                mostrar(); 
                 return false;
             }
         },
@@ -114,11 +116,7 @@ function registrar(event) {
         if (nameValue != "" && passwordValue != "" && emailValue != "" &&
             comparar(passwordValue, password1Value)) {
             if (isEmailFormated) {
-                if (!existeEmail(emailValue)) {
-                }else{
-                    guardarUsuario();
-                    mostrar();                    
-                }
+                existeEmail(emailValue);
             } else {
                 alert("Formato de email invalido");
                 console.log(`Formato de email invalido`)
