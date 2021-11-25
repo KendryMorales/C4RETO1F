@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 function mostrarUsuario() {
     $.ajax({
-        url: "http://localhost:8081/api/user/all",
+        url: "http://129.158.37.103:8081/api/user/all",
         type: 'GET',
         datatype: "JSON",
 
@@ -38,7 +38,7 @@ function guardarUsuario() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         datatype: "JSON",
-        url: "http://localhost:8081/api/user/new",
+        url: "http://129.158.37.103:8081/api/user/new",
         data: JSON.stringify(myData),
         success: function (respuesta) {
             $("#resultado").empty();
@@ -60,7 +60,7 @@ function existeEmail(email) {
     $.ajax({
         type: "GET",
         datatype: "JSON",
-        url: "http://localhost:8081/api/user/" + email,
+        url: "http://129.158.37.103:8081/api/user/" + email,
         success: function (respuesta) {
             if (respuesta) {
                 console.log("Existe email", respuesta, email);

@@ -42,8 +42,8 @@ async function sendDataAsync(email, password) {
     try {
         //await es espera a que responda
         //javascript solo procesa 1 al tiempo
-        // const url = `${'http://localhost:8081/api/user'}/${email}/${password}`;
-        const url = 'http://localhost:8081/api/user/' + email + '/' + password;
+        // const url = `${'http://129.158.37.103:8081/api/user'}/${email}/${password}`;
+        const url = 'http://129.158.37.103:8081/api/user/' + email + '/' + password;
         const response = await fetch(url);
         const responseInJsonFormat = await response.json();
         console.log(`responseInJsonFormat`, responseInJsonFormat);
