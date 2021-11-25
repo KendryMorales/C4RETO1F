@@ -1,0 +1,15 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+._link{
+    color: #111 !important;
+}
+
+._link:hover{
+    color: #ae88f3 !important;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 1.4ms;
+}
