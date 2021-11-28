@@ -1,5 +1,9 @@
 $(document).ready(function () {
     inicial();
+
+    $(".btn").click(function (event) {
+        $(".needs-validation").addClass("was-validated");
+    });
 });
 
 function loginEvento(event) {
@@ -10,7 +14,6 @@ function loginEvento(event) {
         //para quitar espacios en blancos
         const emailValue = email.value.toLowerCase().trim();
         const passwordValue = password.value.trim();
-
 
         console.log(`emailValue`, emailValue);
         console.log(`passwordValue`, passwordValue);
@@ -25,12 +28,14 @@ function loginEvento(event) {
             console.log(`email valido`);
             if (passwordValue != "") {
                 console.log(`password valido`);
-                sendDataAsync(emailValue, passwordValue);
+                autenticar(emailValue, passwordValue);
             } else {
                 console.log(`password no valido`);
             }
         } else {
             console.log(`email no valido`);
+            $("#msg_email").text("Email no valido");
+            $("#email").val("");
         }
 
     } catch (error) {
@@ -38,33 +43,40 @@ function loginEvento(event) {
     }
 }
 
-async function sendDataAsync(email, password) {
-    try {
-        //await es espera a que responda
-        //javascript solo procesa 1 al tiempo
-        // const url = `${'http://129.158.37.103:8081/api/user'}/${email}/${password}`;
-        const url = 'http://129.158.37.103:8081/api/user/' + email + '/' + password;
-        const response = await fetch(url);
-        const responseInJsonFormat = await response.json();
-        console.log(`responseInJsonFormat`, responseInJsonFormat);
+function autenticar(email, pass) {
+    $.ajax({
+        type: "GET",
+        datatype: "JSON",
+        url: 'http://129.158.37.103:8081/api/user/'+email+'/'+pass,
+        success: function (respuesta) {
+            console.log(respuesta);
+            if (respuesta.id) {
+                console.log(`El usuario se autentico`, email);
+                alert("Bienvenido, "+ respuesta.name);
+                $(".needs-validation").removeClass("was-validated");
+                $("#email").val("");
+                $("#password").val("");
+            } else {
+                console.log("El usuario no existe");
+                $("#email").val("");
+                $("#password").val("");
+                $("#msg_email").text("Email no registrado");
+                $("#msg_contraseña").text("Contraseña errada");
+                alert("Usuario no esta registrado");
+            }
 
-        mostrar();
-        $("#resultado").append("<tr>");
-        $("#resultado").append("<td>" + responseInJsonFormat.id + "</td>");
-        $("#resultado").append("<td>" + responseInJsonFormat.email + "</td>");
-        $("#resultado").append("<td>" + responseInJsonFormat.password + "</td>");
-        $("#resultado").append("<td>" + responseInJsonFormat.name + "</td>");
-        $("#resultado").append("</tr>");
-
-        if (responseInJsonFormat.id) {
-            console.log(`El usuario se autentico`, email);
-            alert("Bienvenido, " + responseInJsonFormat.name);
-        }else{
-            alert("Sus datos son incorrectos o no esta registrado");
+            mostrar();
+            $("#resultado").append("<tr>");
+            $("#resultado").append("<td>" + respuesta.id + "</td>");
+            $("#resultado").append("<td>" + respuesta.email + "</td>");
+            $("#resultado").append("<td>" + respuesta.password + "</td>");
+            $("#resultado").append("<td>" + respuesta.name + "</td>");
+            $("#resultado").append("</tr>");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Ha ocurrido un error");
         }
-    } catch (error) {
-        console.log(`error`, error);
-    }
+    });
 }
 
 function inicial() {

@@ -1,8 +1,11 @@
 $(document).ready(function () {
     mostrarUsuario();
     inicial();
-});
+    $(".btn").click(function (event) {
+        $(".needs-validation").addClass("was-validated");
+    });
 
+});
 
 function mostrarUsuario() {
     $.ajax({
@@ -46,12 +49,13 @@ function guardarUsuario() {
             $("#useremail").val("");
             $("#password").val("");
             $("#passwordrepeat").val("");
-            alert("¡Se ha registrado la informacion!");
+            alert("¡Cuenta creada de forma correcta!");
+            $(".needs-validation").removeClass("was-validated");
             mostrarUsuario();
             // mostrar();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Ha ocurrido un error");
+            alert("No fue posible crear la cuenta");
         }
     });
 }
@@ -64,11 +68,8 @@ function existeEmail(email) {
         success: function (respuesta) {
             if (respuesta) {
                 console.log("Existe email", respuesta, email);
-                alert("¡El email existe, intente con otro!");
-                $("#username").val("");
                 $("#useremail").val("");
-                $("#password").val("");
-                $("#passwordrepeat").val("");
+                $("#msg_correo").text("El email existe, intente con otro");
                 return true;
             } else {
                 console.log("El email no existe");
@@ -113,16 +114,18 @@ function registrar(event) {
         const isEmailFormated = emailExpression.test(emailValue);
         console.log(`isEmailFormated`, isEmailFormated);
 
-        if (nameValue != "" && passwordValue != "" && emailValue != "" &&
-            comparar(passwordValue, password1Value)) {
-            if (isEmailFormated) {
-                existeEmail(emailValue);
-            } else {
-                alert("Formato de email invalido");
-                console.log(`Formato de email invalido`)
-            }
+        if (nameValue != "" && passwordValue != "" && emailValue != "") {
+                if(comparar(passwordValue, password1Value)){
+                    if (isEmailFormated) {
+                        existeEmail(emailValue);
+                    } else {
+                        // alert("Formato de email invalido");
+                        console.log(`Formato de email invalido`);
+                        $("#msg_correo").text("Formato de email invalido");
+                    }
+                }
         } else {
-            console.log(`Datos invalidos, revise que los campos esten bien digilenciados`)
+            console.log(`Campos vacios`)
         }
 
     } catch (error) {
@@ -135,7 +138,11 @@ function comparar(pass1, pass2) {
         console.log("Las contraseñas son iguales");
         return true;
     } else {
-        alert("¡Las contraseñas no son iguales!");
+        // alert("¡Las contraseñas no son iguales!");
+        $("#passwordrepeat").val("");
+        $("#password").val("");
+        $("#msg_contraseña").text("Las contraseñas no son iguales, por favor vuelva a digitarla");
+        $("#msg_contraseña1").text("Las contraseñas no son iguales, por favor vuelva a digitarla");
         console.log("Las contraseñas no son iguales");
         return false;
     }

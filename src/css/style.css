@@ -1,21 +1,39 @@
 *{
     box-sizing: border-box;
     margin: 0;
+    padding: 0;
 }
 
-.container-lg{
-    width: 100%;
-    /* height: 550px; */
+.container_box1{
+    width: 95%;
+    height: auto;
     margin: auto;
 }
 
-.text_decoration{
-    text-decoration: none;
+.container-fluid{
+    margin: auto;
+    height: 100vh;
+    padding: 0;
 }
 
-@media screen and (max-width: 600px) {
-    .titulo_index{
-        font-size: 20px;
-    }
+.img_box{
+    margin: auto;
+    padding: 0;
+}
 
+.form_box{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: auto;
+}
+
+.form{
+    margin: auto;
+}
+
+.invalid-feedback{
+font-size: 12px;
 }
